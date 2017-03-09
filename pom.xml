@@ -136,7 +136,7 @@
     <storage.version>v1-rev71-1.22.0</storage.version>
     <woodstox.version>4.4.1</woodstox.version>
     <spring.version>4.3.5.RELEASE</spring.version>
-    
+
     <compiler.error.flag>-Werror</compiler.error.flag>
     <compiler.default.pkginfo.flag>-Xpkginfo:always</compiler.default.pkginfo.flag>
     <compiler.default.exclude>nothing</compiler.default.exclude>
@@ -156,8 +156,8 @@
   </modules>
 
   <profiles>
-    <!-- A global profile defined for all modules for release-level verification. 
-      Optional processes such as building source and javadoc should be limited 
+    <!-- A global profile defined for all modules for release-level verification.
+      Optional processes such as building source and javadoc should be limited
       to this profile. -->
     <profile>
       <id>release</id>
@@ -415,6 +415,12 @@
 
       <dependency>
         <groupId>org.apache.beam</groupId>
+        <artifactId>beam-sdks-java-io-kafka8</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.beam</groupId>
         <artifactId>beam-sdks-java-io-kinesis</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -656,13 +662,13 @@
         <artifactId>google-auth-library-credentials</artifactId>
         <version>${google-auth.version}</version>
       </dependency>
-  
+
       <dependency>
         <groupId>com.google.auth</groupId>
         <artifactId>google-auth-library-oauth2-http</artifactId>
         <version>${google-auth.version}</version>
         <exclusions>
-          <!-- Exclude an old version of guava that is being pulled in by a transitive 
+          <!-- Exclude an old version of guava that is being pulled in by a transitive
             dependency of google-api-client -->
           <exclusion>
             <groupId>com.google.guava</groupId>
@@ -732,7 +738,7 @@
         <artifactId>google-api-services-storage</artifactId>
         <version>${storage.version}</version>
         <exclusions>
-          <!-- Exclude an old version of guava that is being pulled in by a transitive 
+          <!-- Exclude an old version of guava that is being pulled in by a transitive
             dependency of google-api-client -->
           <exclusion>
             <groupId>com.google.guava</groupId>
@@ -788,7 +794,7 @@
         <artifactId>google-api-services-dataflow</artifactId>
         <version>${dataflow.version}</version>
         <exclusions>
-          <!-- Exclude an old version of guava that is being pulled in by a transitive 
+          <!-- Exclude an old version of guava that is being pulled in by a transitive
             dependency of google-api-client -->
           <exclusion>
             <groupId>com.google.guava</groupId>
@@ -802,7 +808,7 @@
         <artifactId>google-api-services-clouddebugger</artifactId>
         <version>${clouddebugger.version}</version>
         <exclusions>
-          <!-- Exclude an old version of guava that is being pulled in by a transitive 
+          <!-- Exclude an old version of guava that is being pulled in by a transitive
             dependency of google-api-client -->
           <exclusion>
             <groupId>com.google.guava</groupId>
@@ -891,7 +897,7 @@
         <artifactId>byte-buddy</artifactId>
         <version>1.6.8</version>
       </dependency>
-      
+
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-expression</artifactId>
@@ -985,7 +991,7 @@
           <artifactId>maven-antrun-plugin</artifactId>
           <version>1.8</version>
         </plugin>
-        
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
@@ -1162,13 +1168,13 @@
           <artifactId>versions-maven-plugin</artifactId>
           <version>2.3</version>
         </plugin>
-	
+
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>1.12</version>
         </plugin>
-	
+
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
@@ -1250,7 +1256,7 @@
           </configuration>
         </plugin>
 
-        <!-- This plugin's configuration tells the m2e plugin how to import this 
+        <!-- This plugin's configuration tells the m2e plugin how to import this
           Maven project into the Eclipse environment. -->
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
