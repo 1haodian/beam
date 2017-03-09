@@ -74,6 +74,7 @@
     <module>jdbc</module>
     <module>jms</module>
     <module>kafka</module>
+    <module>kafka8</module>
     <module>kinesis</module>
     <module>mongodb</module>
     <module>mqtt</module>
