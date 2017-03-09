@@ -369,7 +369,6 @@ class KafkaCluster implements Serializable {
     }
 
     Set<TopicAndPartition> missing = Sets.difference(topicAndPartitions, result.keySet());
-    //checkState(result.keySet().size() != topicAndPartitions.size(),
     if (result.keySet().size() != topicAndPartitions.size()) {
       LOG.error("Couldn't find leader offsets for " + missing);
       result = new HashMap<>();
