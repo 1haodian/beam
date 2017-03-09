@@ -25,8 +25,8 @@ import java.io.Serializable;
 import kafka.javaapi.message.ByteBufferMessageSet;
 
 /**
- * KafkaMessage contains {@link ByteBufferMessageSet} as well as metadata for the message (topic name,
- * partition id).
+ * KafkaMessage contains {@link ByteBufferMessageSet} as well as metadata for the message
+ * (topic name,partition id).
  */
 public class KafkaMessage implements Serializable {
   private ByteBufferMessageSet byteBufferMessageSet;
