@@ -33,8 +33,6 @@ import com.google.common.collect.Sets;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -65,7 +63,7 @@ class KafkaCluster implements Serializable {
 
   private static final Logger LOG = LoggerFactory.getLogger(KafkaCluster.class);
 
-  private Map<String, Integer> seedBrokers = new HashMap<>();
+  private Map<String, Integer> seedBrokers = Maps.newHashMap();
   private Properties props;
 
   private SimpleConsumerConfig config = null;
@@ -166,12 +164,12 @@ class KafkaCluster implements Serializable {
   }
 
   Map<TopicAndPartition, Leader> findLeaders(Set<TopicAndPartition> topicAndPartitions) {
-    Map<TopicAndPartition, Leader> result = new HashMap<>();
+    Map<TopicAndPartition, Leader> result = Maps.newHashMap();
     List<String> topics = Lists.newArrayList();
     for (TopicAndPartition eachTopicAndPartition : topicAndPartitions) {
       topics.add(eachTopicAndPartition.topic());
     }
-    Set<TopicMetadata> topicMetadatas = getPartitionMetadata(new HashSet<>(topics));
+    Set<TopicMetadata> topicMetadatas = getPartitionMetadata(Sets.newHashSet(topics));
     for (TopicMetadata tm : topicMetadatas) {
       List<PartitionMetadata> partitionMetadatas = tm.partitionsMetadata();
       for (PartitionMetadata pm : partitionMetadatas) {
@@ -192,7 +190,7 @@ class KafkaCluster implements Serializable {
 
   Set<TopicMetadata> getPartitionMetadata(Set<String> topics) {
 
-    Set<TopicMetadata> result = null;
+    Set<TopicMetadata> result = Sets.newHashSet();
     TopicMetadataRequest req = new TopicMetadataRequest(
             kafka.api.TopicMetadataRequest.CurrentVersion(),
             0, config().clientId(), Lists.newArrayList(topics));
@@ -209,11 +207,12 @@ class KafkaCluster implements Serializable {
         List<TopicMetadata> errs = Lists.newArrayList();
         for (TopicMetadata metaData : metaDatas) {
           if (metaData.errorCode() != ErrorMapping.NoError()) {
+            LOG.error("Find TopicMetadata error " + metaData + " errcode: " + metaData.errorCode());
             errs.add(metaData);
           }
         }
         if (errs.isEmpty()) {
-          result = new HashSet<>(metaDatas);
+          result = Sets.newHashSet(metaDatas);
           break;
         }
 
@@ -231,7 +230,7 @@ class KafkaCluster implements Serializable {
 
   List<TopicAndPartition> getPartitions(List<String> topics) {
     List<TopicAndPartition> result = Lists.newArrayList();
-    Set<TopicMetadata> topicMetadata = getPartitionMetadata(new HashSet<>(topics));
+    Set<TopicMetadata> topicMetadata = getPartitionMetadata(Sets.newHashSet(topics));
     for (TopicMetadata tm : topicMetadata) {
       List<PartitionMetadata> partitionMetadatas = tm.partitionsMetadata();
       for (PartitionMetadata pm : partitionMetadatas) {
@@ -332,7 +331,7 @@ class KafkaCluster implements Serializable {
       }
     };
     Multimap<Leader, TopicAndPartition> lToTp = Multimaps.index(tps, func);
-    Map<TopicAndPartition, LeaderOffset> result = new HashMap<>();
+    Map<TopicAndPartition, LeaderOffset> result = Maps.newHashMap();
     Set<Leader> leaders = lToTp.keySet();
     for (Leader leader : leaders) {
       SimpleConsumer consumer = null;
@@ -342,7 +341,7 @@ class KafkaCluster implements Serializable {
                 Lists.newArrayList(lToTp.get(new Leader(consumer.host(), consumer.port())));
         Map<TopicAndPartition, PartitionOffsetRequestInfo> requestInfo;
         for (TopicAndPartition tp : partitionsToGetOffsets) {
-          requestInfo = new HashMap<>();
+          requestInfo = Maps.newHashMap();
           requestInfo.put(tp, new PartitionOffsetRequestInfo(before, maxNumOffsets));
           kafka.javaapi.OffsetRequest request = new kafka.javaapi.OffsetRequest(
                   requestInfo
@@ -371,9 +370,8 @@ class KafkaCluster implements Serializable {
     Set<TopicAndPartition> missing = Sets.difference(topicAndPartitions, result.keySet());
     if (result.keySet().size() != topicAndPartitions.size()) {
       LOG.error("Couldn't find leader offsets for " + missing);
-      result = new HashMap<>();
+      result = Maps.newHashMap();
     }
-
     return result;
   }
 
