@@ -22,6 +22,7 @@ import com.google.common.collect.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.beam.runners.core.GroupAlsoByWindowsDoFn;
 import org.apache.beam.runners.core.LateDataUtils;
@@ -362,12 +363,12 @@ public class SparkGroupAlsoByWindowViaWindowSet {
                 /*WV<KV<K, Itr<I>>>*/ List<byte[]>>>,
                 WindowedValue<KV<K, Iterable<InputT>>>>() {
               @Override
-              public Iterable<WindowedValue<KV<K, Iterable<InputT>>>> call(
+              public Iterator<WindowedValue<KV<K, Iterable<InputT>>>> call(
                   Tuple2</*K*/ ByteArray, Tuple2<StateAndTimers,
                   /*WV<KV<K, Itr<I>>>*/ List<byte[]>>> t2) throws Exception {
                 // drop the state since it is already persisted at this point.
                 // return in serialized form.
-                return CoderHelpers.fromByteArrays(t2._2()._2(), wvKvIterCoder);
+                return CoderHelpers.fromByteArrays(t2._2()._2(), wvKvIterCoder).iterator();
               }
         });
   }
