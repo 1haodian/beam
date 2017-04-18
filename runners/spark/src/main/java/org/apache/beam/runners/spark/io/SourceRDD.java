@@ -220,10 +220,29 @@ public class SourceRDD {
       return 41 * (41 + rddId) + index;
     }
 
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+
+      SourcePartition<?> that = (SourcePartition<?>) o;
+
+      if (rddId != that.rddId) {
+        return false;
+      }
+      return index == that.index;
+    }
+
     public Source<T> getSource() {
       return source;
     }
   }
+
+
 
   /**
    * A {@link SourceRDD.Unbounded} is the implementation of a micro-batch

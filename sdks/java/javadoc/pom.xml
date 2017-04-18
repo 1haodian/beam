@@ -142,10 +142,10 @@
       <artifactId>beam-sdks-java-io-kafka</artifactId>
     </dependency>
 
-      <dependency>
-          <groupId>org.apache.beam</groupId>
-          <artifactId>beam-sdks-java-io-kafka8</artifactId>
-      </dependency>
+    <dependency>
+      <groupId>org.apache.beam</groupId>
+      <artifactId>beam-sdks-java-io-kafka8</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.apache.beam</groupId>

@@ -33,6 +33,7 @@ import java.util.Map;
 import org.apache.beam.sdk.options.GcpOptions.DefaultProjectFactory;
 import org.apache.beam.sdk.testing.RestoreSystemProperties;
 import org.apache.beam.sdk.util.NoopPathValidator;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -43,6 +44,7 @@ import org.junit.runners.JUnit4;
 
 /** Tests for {@link GcpOptions}. */
 @RunWith(JUnit4.class)
+@Ignore
 public class GcpOptionsTest {
   @Rule public TestRule restoreSystemProperties = new RestoreSystemProperties();
   @Rule public TemporaryFolder tmpFolder = new TemporaryFolder();

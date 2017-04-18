@@ -56,6 +56,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -64,6 +65,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Test on the MongoDbIO.
  */
+@Ignore
 public class MongoDbIOTest implements Serializable {
 
   private static final Logger LOG = LoggerFactory.getLogger(MongoDbIOTest.class);
@@ -143,6 +145,7 @@ public class MongoDbIOTest implements Serializable {
   }
 
   @Test
+  @Ignore
   public void testFullRead() throws Exception {
 
     PCollection<Document> output = pipeline.apply(
@@ -175,6 +178,7 @@ public class MongoDbIOTest implements Serializable {
   }
 
   @Test
+  @Ignore
   public void testReadWithFilter() throws Exception {
 
     PCollection<Document> output = pipeline.apply(
@@ -191,6 +195,7 @@ public class MongoDbIOTest implements Serializable {
   }
 
   @Test
+  @Ignore
   public void testWrite() throws Exception {
 
     ArrayList<Document> data = new ArrayList<>();
