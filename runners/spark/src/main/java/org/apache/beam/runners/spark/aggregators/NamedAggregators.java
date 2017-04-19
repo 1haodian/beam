@@ -51,6 +51,25 @@ public class NamedAggregators implements Serializable {
   public NamedAggregators() {
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    NamedAggregators that = (NamedAggregators) o;
+
+    return mNamedAggregators.equals(that.mNamedAggregators);
+  }
+
+  @Override
+  public int hashCode() {
+    return mNamedAggregators.hashCode();
+  }
+
   /**
    * Constructs a new named aggregators instance that contains a mapping from the specified
    * `named` to the associated initial state.

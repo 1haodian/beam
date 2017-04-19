@@ -94,6 +94,7 @@ import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.joda.time.Instant;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -109,6 +110,7 @@ import org.mockito.stubbing.Answer;
  * Tests for the {@link DataflowRunner}.
  */
 @RunWith(JUnit4.class)
+@Ignore
 public class DataflowRunnerTest {
 
   private static final String VALID_STAGING_BUCKET = "gs://valid-bucket/staging";
