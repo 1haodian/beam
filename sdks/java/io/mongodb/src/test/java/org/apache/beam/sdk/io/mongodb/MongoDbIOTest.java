@@ -17,50 +17,11 @@
  */
 package org.apache.beam.sdk.io.mongodb;
 
-import static org.junit.Assert.assertEquals;
-
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
-
-import de.flapdoodle.embed.mongo.MongodExecutable;
-import de.flapdoodle.embed.mongo.MongodProcess;
-import de.flapdoodle.embed.mongo.MongodStarter;
-import de.flapdoodle.embed.mongo.config.IMongodConfig;
-import de.flapdoodle.embed.mongo.config.MongoCmdOptionsBuilder;
-import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
-import de.flapdoodle.embed.mongo.config.Net;
-import de.flapdoodle.embed.mongo.config.Storage;
-import de.flapdoodle.embed.mongo.distribution.Version;
-import de.flapdoodle.embed.process.io.file.Files;
-import de.flapdoodle.embed.process.runtime.Network;
-
-import java.io.File;
 import java.io.Serializable;
-import java.net.ServerSocket;
-import java.util.ArrayList;
 
-import org.apache.beam.sdk.testing.PAssert;
-import org.apache.beam.sdk.testing.TestPipeline;
-import org.apache.beam.sdk.transforms.Count;
-import org.apache.beam.sdk.transforms.Create;
-import org.apache.beam.sdk.transforms.MapElements;
-import org.apache.beam.sdk.transforms.SerializableFunction;
-import org.apache.beam.sdk.transforms.SimpleFunction;
-import org.apache.beam.sdk.values.KV;
-import org.apache.beam.sdk.values.PCollection;
-
-import org.bson.Document;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+
 
 /**
  * Test on the MongoDbIO.
@@ -68,7 +29,7 @@ import org.slf4j.LoggerFactory;
 @Ignore
 public class MongoDbIOTest implements Serializable {
 
-  private static final Logger LOG = LoggerFactory.getLogger(MongoDbIOTest.class);
+  /*private static final Logger LOG = LoggerFactory.getLogger(MongoDbIOTest.class);
 
   private static final String MONGODB_LOCATION = "target/mongodb";
   private static final String DATABASE = "beam";
@@ -84,9 +45,9 @@ public class MongoDbIOTest implements Serializable {
   @Rule
   public final transient TestPipeline pipeline = TestPipeline.create();
 
-  /**
+  *//**
    * Looking for an available network port.
-   */
+   *//*
   @BeforeClass
   public static void availablePort() throws Exception {
     try (ServerSocket serverSocket = new ServerSocket(0)) {
@@ -222,6 +183,6 @@ public class MongoDbIOTest implements Serializable {
 
     Assert.assertEquals(10000, count);
 
-  }
+  }*/
 
 }

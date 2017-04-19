@@ -164,6 +164,40 @@ public class SparkMetricsContainer implements Serializable {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    SparkMetricsContainer that = (SparkMetricsContainer) o;
+
+    if (metricsContainers != null
+        ? !metricsContainers.equals(that.metricsContainers) :
+        that.metricsContainers != null) {
+      return false;
+    }
+    if (!counters.equals(that.counters)) {
+      return false;
+    }
+    if (!distributions.equals(that.distributions)) {
+      return false;
+    }
+    return gauges.equals(that.gauges);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = metricsContainers != null ? metricsContainers.hashCode() : 0;
+    result = 31 * result + counters.hashCode();
+    result = 31 * result + distributions.hashCode();
+    result = 31 * result + gauges.hashCode();
+    return result;
+  }
+
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     for (Map.Entry<String, ?> metric : new SparkBeamMetric().renderAll().entrySet()) {
