@@ -1,4 +1,3 @@
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,8 +16,6 @@
  * limitations under the License.
  */
 package org.apache.beam.sdk.io.rest;
-
-//import static com.google.common.base.Preconditions.*;
 
 import com.google.auto.value.AutoValue;
 
@@ -49,8 +46,7 @@ import org.slf4j.LoggerFactory;
 /**
  *
  */
-@Experimental
-public class RestIO {
+@Experimental public class RestIO {
 
   private static final Logger LOG = LoggerFactory.getLogger(RestIO.class);
 
@@ -68,9 +64,8 @@ public class RestIO {
 
   /**
    * Read.
-    */
-  @AutoValue
-  public abstract static class Read extends PTransform<PBegin, PCollection<String>> {
+   */
+  @AutoValue public abstract static class Read extends PTransform<PBegin, PCollection<String>> {
 
     /**
      * location.
@@ -80,32 +75,30 @@ public class RestIO {
 
     abstract Builder builder();
 
-    @AutoValue.Builder
-    abstract static class Builder {
+    @AutoValue.Builder abstract static class Builder {
+
       abstract Builder setLocation(String location);
+
       abstract Read build();
     }
 
     public Read withLocation(String location) {
-     /* checkArgument(location != null, "RestIO.read().withLocation(location) called with null "
+     /*checkArgument(location != null, "RestIO.read().withLocation(location) called with null "
           + "location");*/
       return builder().setLocation(location).build();
     }
 
-    @Override
-    public PCollection<String> expand(PBegin input) {
-      return input.apply(Create.of(location()))
-          .apply(ParDo.of(new ReadFn(this)));
+    @Override public PCollection<String> expand(PBegin input) {
+      return input.apply(Create.of(location())).apply(ParDo.of(new ReadFn(this)));
     }
 
-    @Override
-    public void validate(PipelineOptions pipelineOptions) {
-      /*checkState(location() != null, "RestIO.read() requires a location to be set via "
+    @Override public void validate(PipelineOptions pipelineOptions) {
+     /* checkState(location() != null, "RestIO.read() requires a location to be set via "
           + "withLocation(location)");*/
+      return;
     }
 
-    @Override
-    public void populateDisplayData(DisplayData.Builder builder) {
+    @Override public void populateDisplayData(DisplayData.Builder builder) {
       builder.addIfNotNull(DisplayData.item("location", location()));
     }
 
@@ -120,13 +113,11 @@ public class RestIO {
       this.spec = spec;
     }
 
-    @Setup
-    public void setup() {
+    @Setup public void setup() {
       client = new DefaultHttpClient();
     }
 
-    @ProcessElement
-    public void processElement(ProcessContext processContext) throws Exception {
+    @ProcessElement public void processElement(ProcessContext processContext) throws Exception {
       String location = processContext.element();
       HttpGet httpGet = new HttpGet(location);
       BasicHeader basicHeader = new BasicHeader("Accept", "application/json");
@@ -141,12 +132,11 @@ public class RestIO {
 
   /**
    * Write.
-    */
-  @AutoValue
-  public abstract static class Write extends PTransform<PCollection<KV<String, String>>, PDone> {
+   */
+  @AutoValue public abstract static class Write
+      extends PTransform<PCollection<KV<String, String>>, PDone> {
 
-    @Override
-    public PDone expand(PCollection<KV<String, String>> input) {
+    @Override public PDone expand(PCollection<KV<String, String>> input) {
       input.apply(ParDo.of(new WriteFn(this)));
       return PDone.in(input.getPipeline());
     }
@@ -163,13 +153,11 @@ public class RestIO {
       this.spec = spec;
     }
 
-    @Setup
-    public void setup() {
+    @Setup public void setup() {
       client = new DefaultHttpClient();
     }
 
-    @ProcessElement
-    public void processElement(ProcessContext processContext) throws Exception {
+    @ProcessElement public void processElement(ProcessContext processContext) throws Exception {
       KV<String, String> kv = processContext.element();
       HttpPost post = new HttpPost(kv.getKey());
       StringEntity entity = new StringEntity(kv.getValue());
