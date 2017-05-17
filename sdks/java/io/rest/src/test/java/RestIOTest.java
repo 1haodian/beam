@@ -1,4 +1,4 @@
-import org.apache.beam.sdk.coders.KvCoder;
+import java.io.Serializable;
 import org.apache.beam.sdk.coders.StringUtf8Coder;
 import org.apache.beam.sdk.io.rest.RestIO;
 import org.apache.beam.sdk.testing.NeedsRunner;
@@ -12,8 +12,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import java.io.Serializable;
-
+/**
+ * RestIOTest.
+ */
 public class RestIOTest implements Serializable {
 
   @Rule public final transient TestPipeline pipeline = TestPipeline.create();
@@ -32,7 +33,8 @@ public class RestIOTest implements Serializable {
     @DoFn.ProcessElement public void processElement(ProcessContext c) {
       String log = c.element();
       Assert.assertTrue(log.endsWith("\"hadoopVersionBuiltOn\":\"2015-06-25T02:34Z\"}}"));
-      c.output(KV.of("http://jqhadoop-test28-33.int.yihaodian.com:8088/ws/v1",log));
+      c.output(KV.of("http://jqhadoop-test28-33.int.yihaodian.com:8088/ws/v1", log));
     }
   }
 }
+
