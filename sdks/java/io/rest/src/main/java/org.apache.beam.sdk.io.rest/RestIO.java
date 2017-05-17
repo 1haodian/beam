@@ -1,3 +1,4 @@
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -24,7 +25,6 @@ import com.google.auto.value.AutoValue;
 import javax.annotation.Nullable;
 
 import org.apache.beam.sdk.annotations.Experimental;
-import org.apache.beam.sdk.io.UnboundedSource;
 import org.apache.beam.sdk.options.PipelineOptions;
 import org.apache.beam.sdk.transforms.Create;
 import org.apache.beam.sdk.transforms.DoFn;
@@ -66,9 +66,16 @@ public class RestIO {
 
   }
 
+  /**
+   * Read.
+    */
   @AutoValue
   public abstract static class Read extends PTransform<PBegin, PCollection<String>> {
 
+    /**
+     * location.
+     * @return
+     */
     @Nullable abstract String location();
 
     abstract Builder builder();
@@ -132,6 +139,9 @@ public class RestIO {
 
   }
 
+  /**
+   * Write.
+    */
   @AutoValue
   public abstract static class Write extends PTransform<PCollection<KV<String, String>>, PDone> {
 

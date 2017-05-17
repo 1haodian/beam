@@ -17,6 +17,6 @@
  */
 
 /**
- * Transforms for producing/consuming data from a REST service.
+ * Transforms for reading and writing from RestAPI.
  */
 package org.apache.beam.sdk.io.rest;
