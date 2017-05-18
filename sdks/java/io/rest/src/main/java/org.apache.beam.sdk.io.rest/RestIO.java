@@ -17,6 +17,8 @@
  */
 package org.apache.beam.sdk.io.rest;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import com.google.auto.value.AutoValue;
 
 import javax.annotation.Nullable;
@@ -83,8 +85,8 @@ import org.slf4j.LoggerFactory;
     }
 
     public Read withLocation(String location) {
-     /*checkArgument(location != null, "RestIO.read().withLocation(location) called with null "
-          + "location");*/
+     checkArgument(location != null, "RestIO.read().withLocation(location) called with null "
+          + "location");
       return builder().setLocation(location).build();
     }
 
@@ -92,10 +94,9 @@ import org.slf4j.LoggerFactory;
       return input.apply(Create.of(location())).apply(ParDo.of(new ReadFn(this)));
     }
 
-    @Override public void validate(PipelineOptions pipelineOptions) {
-     /* checkState(location() != null, "RestIO.read() requires a location to be set via "
-          + "withLocation(location)");*/
-      return;
+    public void validate(PipelineOptions pipelineOptions) {
+      checkState(location() != null, "RestIO.read() requires a location to be set via "
+          + "withLocation(location)");
     }
 
     @Override public void populateDisplayData(DisplayData.Builder builder) {

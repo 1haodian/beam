@@ -78,7 +78,7 @@
     <module>kinesis</module>
     <module>mongodb</module>
     <module>mqtt</module>
-   <!-- <module>rest</module>-->
+    <module>rest</module>
   </modules>
 
   <profiles>
