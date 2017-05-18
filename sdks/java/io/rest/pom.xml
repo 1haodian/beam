@@ -45,6 +45,10 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
         <!-- HTTP client-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
