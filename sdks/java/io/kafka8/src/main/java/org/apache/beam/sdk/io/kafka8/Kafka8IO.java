@@ -235,7 +235,7 @@ public class Kafka8IO {
     /**
      * Returns a new {@link Read} that reads from the topics. All the partitions from each
      * of the topics are read.
-     * See {@link UnboundedKafkaSource#generateInitialSplits(int, PipelineOptions)} for description
+     * See {@link UnboundedKafkaSource#split(int, PipelineOptions)} for description
      * of how the partitions are distributed among the splits.
      */
     public Read<K, V> withTopics(List<String> topics) {
@@ -247,7 +247,7 @@ public class Kafka8IO {
     /**
      * Returns a new {@link Read} that reads from the partitions. This allows reading only a subset
      * of partitions for one or more topics when (if ever) needed.
-     * See {@link UnboundedKafkaSource#generateInitialSplits(int, PipelineOptions)} for description
+     * See {@link UnboundedKafkaSource#split(int, PipelineOptions)} for description
      * of how the partitions are distributed among the splits.
      */
     public Read<K, V> withTopicPartitions(List<TopicAndPartition> topicAndPartitions) {
@@ -351,7 +351,7 @@ public class Kafka8IO {
     }
 
     @Override
-    public void validate(PBegin input) {
+    public void validate(PipelineOptions options) {
       checkNotNull(getConsumerConfig().get(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG),
               "Kafka bootstrap servers should be set");
       checkArgument(getTopics().size() > 0 || getTopicPartitions().size() > 0,
@@ -542,7 +542,7 @@ public class Kafka8IO {
      * {@code <topic, partition>} and then assigned to splits in round-robin order.
      */
     @Override
-    public List<UnboundedKafkaSource<K, V>> generateInitialSplits(
+    public List<UnboundedKafkaSource<K, V>> split(
             int desiredNumSplits, PipelineOptions options) throws Exception {
 
       List<TopicAndPartition> partitions = new ArrayList<>(spec.getTopicPartitions());
@@ -608,7 +608,7 @@ public class Kafka8IO {
         LOG.warn("Looks like generateSplits() is not called. Generate single split.");
         try {
           return new UnboundedKafkaReader<K, V>(
-                  generateInitialSplits(1, options).get(0), checkpointMark);
+              split(1, options).get(0), checkpointMark);
         } catch (Exception e) {
           throw new RuntimeException(e);
         }
@@ -979,6 +979,7 @@ public class Kafka8IO {
                   pState.topic(),
                   pState.partition(),
                   rawRecord.offset(),
+                  System.currentTimeMillis(),
                   decode(keyBytes, source.spec.getKeyCoder()),
                   decode(messageBytes, source.spec.getValueCoder()));
 
@@ -1218,7 +1219,7 @@ public class Kafka8IO {
     }
 
     @Override
-    public void validate(PCollection<KV<K, V>> input) {
+    public void validate(PipelineOptions options) {
       checkNotNull(getProducerConfig().get(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG),
               "Kafka bootstrap servers should be set");
       checkNotNull(getTopic(), "Kafka topic should be set");
@@ -1293,13 +1294,13 @@ public class Kafka8IO {
 
   private static class NullOnlyCoder<T> extends AtomicCoder<T> {
     @Override
-    public void encode(T value, OutputStream outStream, Context context) {
+    public void encode(T value, OutputStream outStream) {
       checkArgument(value == null, "Can only encode nulls");
-      // Encode as the empty string.
+      // Encode as no bytes.
     }
 
     @Override
-    public T decode(InputStream inStream, Context context) {
+    public T decode(InputStream inStream) {
       return null;
     }
   }
@@ -1326,7 +1327,7 @@ public class Kafka8IO {
     }
 
     @FinishBundle
-    public void finishBundle(Context c) throws IOException {
+    public void finishBundle() throws IOException {
       checkForFailures();
     }
 
